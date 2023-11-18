@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.util.Base64;
 import java.util.HashMap;
 
-import org.bouncycastle.crypto.Digest;
-import org.bouncycastle.crypto.digests.SHA512Digest;
-
 import com.auditoria.cic.datosJSON.Archivo;
 
 public class CargarDoc {
@@ -48,14 +45,6 @@ public class CargarDoc {
 
     private void setNombre()
     {
-        //Digest digesto = new SHA512Digest();
-        //byte entrada[] = obj.getNombre().getBytes();
-        //byte sal[] = new byte[digesto.getDigestSize()];
-        
-        //digesto.update(entrada, 0, entrada.length);
-        //digesto.doFinal(sal, 0);
-        
-        //this.nombre = new String(sal);
         if( obj.getTipo().equals(CSV) )
             this.nombre = obj.getNombre();
     }

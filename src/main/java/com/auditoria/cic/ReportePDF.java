@@ -21,9 +21,11 @@ public class ReportePDF {
     static String JASPER4 = "/home/archivos/config/pretamo.jasper";
     static String DOC1 = "Elaboración de Dictámenes COSIE ante el CTCE ";
 
-    public void genrarReporte(HashMap<String, Object> parameters, int tipo)
+    public void genrarReporte(HashMap<String, Object> parameters, int tipo, String per)
     {
-        String nombreArch = crearRutaDocuemnto(tipo, (String)parameters.get("FolioAno"), (String)parameters.get("Folio"))+".pdf";
+        String nombreArch = crearRutaDocuemnto(tipo, 
+                                                (String)parameters.get("Folio"),
+                                                per)+".pdf";
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
         try {
@@ -34,15 +36,15 @@ public class ReportePDF {
             e.printStackTrace();
         }
     }
-    private String crearRutaDocuemnto(int tipo, String periodo, String nombre)
+    private String crearRutaDocuemnto(int tipo, String folio, String per)
     {
-        String absoluta = rutaPeriodoDoc(rutaTipoReporte(tipo), periodo);
+        String absoluta = rutaPeriodoDoc(rutaTipoReporte(tipo), per);
 
-        return absoluta+nombre;
+        return absoluta+folio;
     }
-    private String rutaPeriodoDoc(String histRuta, String periodo)
+    private String rutaPeriodoDoc(String histRuta, String per)
     {
-        String retorno = histRuta+periodo;
+        String retorno = histRuta+per;
         File dir = new File(retorno);
 
         if( !dir.exists() )

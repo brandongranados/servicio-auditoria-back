@@ -20,7 +20,7 @@ public class LectorCSV extends Thread {
     private HashMap<String, Object> err = null;
     private int cant = 0;
     private class hiloExcel extends Thread{
-        private String rengExcel[], periodo;
+        private String rengExcel[];
         private ReportePDF trayectoria;
         private int tipo;
         private TiposDoc nuevo;
@@ -39,26 +39,34 @@ public class LectorCSV extends Thread {
         }
         public void run()
         {
-            if( !revisaPeriodo() )
+            try 
             {
-                try {
+                if( !revisaPeriodo() )
+                {
                     semaforo.acquire();
-                    err.put("msm"+rengExcel[0], "El periodo del folio numero: "+rengExcel[0]+" no se encuntra dentro de las fechas parametrizadas favor de revisar");
+                    err.put("msm"+rengExcel[0], "El periodo del folio número: "+rengExcel[0]+" no se encuentra dentro de las fechas parametrizadas favor de revisar");
                     semaforo.release();
-                } catch (Exception e) {}
+                    incrementaVariable();
+                }
+                else
+                    convertirCsvToPdf();
+            } catch (Exception e) {
+                err.put("msm"+rengExcel[0], "Error al interpretar el folio :"+rengExcel[0]+" revisar que las columnas del documento excel sean las correctas");
             }
-            else
-                convertirCsvToPdf();
 
+            incrementaVariable();            
+        }
+
+
+        private void incrementaVariable()
+        {
             try {
                 semaforo.acquire();
                 cant++;
                 semaforo.release();
             } catch (Exception e) {}
         }
-
-
-        private void convertirCsvToPdf()
+        private void convertirCsvToPdf()throws Exception
         {
             nuevo.setFolio(rengExcel[0]);
             nuevo.setFechaCompleta( nuevo.getConvertFecha(rengExcel[1]) );
@@ -99,7 +107,7 @@ public class LectorCSV extends Thread {
 
             return periodo+"-"+per.getPerido();
         }
-        private void cosie()
+        private void cosie() throws Exception
         {
             nuevo.setVariable("R");
             nuevo.setOtrosParametros(Integer.parseInt(rengExcel[3]), 1, 5);
@@ -109,7 +117,7 @@ public class LectorCSV extends Thread {
             nuevo.setOtrosParametros(Integer.parseInt(rengExcel[7]), 5, 5);
             nuevo.setComentarios(rengExcel[8]);
         }
-        private void biblioteca()
+        private void biblioteca()throws Exception
         {
             nuevo.setTipoComunidad(rengExcel[2]);
             nuevo.setVariable("R");
@@ -121,7 +129,7 @@ public class LectorCSV extends Thread {
             nuevo.setServicio(rengExcel[7]);
             nuevo.setComentarios(rengExcel[8]);
         }
-        private void culturales()
+        private void culturales()throws Exception
         {
             nuevo.setVariable("R");
             nuevo.setSatisfaccionEspecifico(rengExcel[2], "11");
@@ -131,7 +139,7 @@ public class LectorCSV extends Thread {
             nuevo.setSatisfaccionEspecifico(rengExcel[6], "15");
             nuevo.setComentarios(rengExcel[7]);
         }
-        private void prestamo()
+        private void prestamo()throws Exception
         {
             nuevo.setTipoComunidad(rengExcel[2]);
             nuevo.setVariable("R");
@@ -183,7 +191,7 @@ public class LectorCSV extends Thread {
 
             if( err.size() > 0 )
             {
-                err.put("msm", "Error al crear documentos favor de revisar repuesta de errores");
+                err.put("msm", "Lista de errores");
                 return ResponseEntity.badRequest().body(err);
             }
             cant = 0;

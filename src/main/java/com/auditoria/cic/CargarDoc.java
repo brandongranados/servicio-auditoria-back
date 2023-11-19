@@ -59,7 +59,7 @@ public class CargarDoc {
 
         if( obj.getArchivo() == null || obj.getArchivo().equals("") )
         {
-            rep.put("msm", "No fue posible procesar su operacion");
+            rep.put("msm", "No fue posible procesar su operación");
             estado = 400;
             return false;
         }
@@ -72,11 +72,11 @@ public class CargarDoc {
             sal = new DataOutputStream(new FileOutputStream(RUTA_EXCEL+nombre));
             sal.write(Base64.getDecoder().decode(obj.getArchivo()));
             sal.close();
-            rep.put("msm", "Operacion realizada con exito");
+            rep.put("msm", "Operación realizada con éxito");
             estado = 200;
         } catch (Exception e) {
             e.printStackTrace();
-            rep.put("msm", "No fue posible procesar su operacion");
+            rep.put("msm", "No fue posible procesar su operación");
             estado = 400;
         }
         finally

@@ -21,28 +21,23 @@ public class ReportePDF {
     static String JASPER4 = "/home/archivos/config/pretamo.jasper";
     static String DOC1 = "Elaboración de Dictámenes COSIE ante el CTCE ";
 
-    public void genrarReporte(HashMap<String, Object> parameters, int tipo, String per)
+    public void genrarReporte(HashMap<String, Object> parameters, int tipo, String per)throws Exception
     {
         String nombreArch = crearRutaDocuemnto(tipo, 
                                                 (String)parameters.get("Folio"),
                                                 per)+".pdf";
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
-        try {
-            jasperReport = (JasperReport) JRLoader.loadObjectFromFile(archivoJasper(tipo));
-            jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-            JasperExportManager.exportReportToPdfFile(jasperPrint, nombreArch);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(archivoJasper(tipo));
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+        JasperExportManager.exportReportToPdfFile(jasperPrint, nombreArch);
     }
-    private String crearRutaDocuemnto(int tipo, String folio, String per)
+    private String crearRutaDocuemnto(int tipo, String folio, String per)throws Exception
     {
         String absoluta = rutaPeriodoDoc(rutaTipoReporte(tipo), per);
 
         return absoluta+folio;
     }
-    private String rutaPeriodoDoc(String histRuta, String per)
+    private String rutaPeriodoDoc(String histRuta, String per)throws Exception
     {
         String retorno = histRuta+per;
         File dir = new File(retorno);
@@ -57,7 +52,7 @@ public class ReportePDF {
 
     }
 
-    private String rutaTipoReporte(int tipo)
+    private String rutaTipoReporte(int tipo)throws Exception
     {
         String carpRepor = tipoDoc(tipo);
         File dir = new File(RUTA_PDF+carpRepor);
@@ -72,7 +67,7 @@ public class ReportePDF {
         return carpRepor;      
     }
 
-    private String tipoDoc(int tipo)
+    private String tipoDoc(int tipo)throws Exception
     {
         String retorno = "";
         switch (tipo) 
@@ -92,7 +87,7 @@ public class ReportePDF {
         }
         return retorno;
     }
-    private String archivoJasper(int tipo)
+    private String archivoJasper(int tipo)throws Exception
     {
         String retorno = "";
         switch (tipo) 

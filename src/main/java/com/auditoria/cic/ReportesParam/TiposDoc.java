@@ -18,9 +18,11 @@ public class TiposDoc {
     static String BASE_DATOS = "accesoabasededatos";
     static String BIBLIO_VIRTUAL = "bibliotecavirtualbobenlinea";
 
-    static String FORMATO_FECHA_ENTRADA = "yyyy/MM/dd hh:mm:ss a";
+    static String FORMATO_FECHA_ENTRADA = "yyyy/MM/dd";
     static String FORMATO_FECHA_SALIDA = "dd 'de' MMMM 'de' yyyy";
-    static String FILTRAR_FECHA = "GMT";
+    static String FILTRAR_FECHA = " ";
+
+    static int FOLIO_TAM = 4;
 
     private HashMap<String, Object> param;
     private String variable;
@@ -41,6 +43,8 @@ public class TiposDoc {
     }
     public void setFolio(String val)
     {
+        while( val.length() < FOLIO_TAM )
+            val = "0"+val;
         param.put("Folio", val);
     }
     public void setFechaCompleta(String val)

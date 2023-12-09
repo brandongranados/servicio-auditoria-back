@@ -41,14 +41,14 @@ public class LectorCSV extends Thread {
         {
             try 
             {
-                if( !revisaPeriodo() )
-                {
-                    semaforo.acquire();
-                    err.put("msm"+rengExcel[0], "El periodo del folio número: "+rengExcel[0]+" no se encuentra dentro de las fechas parametrizadas favor de revisar");
-                    semaforo.release();
-                    incrementaVariable();
-                }
-                else
+                //if( !revisaPeriodo() )
+                //{
+                   // semaforo.acquire();
+                    //err.put("msm"+rengExcel[0], "El periodo del folio número: "+rengExcel[0]+" no se encuentra dentro de las fechas parametrizadas favor de revisar");
+                    //semaforo.release();
+                    //incrementaVariable();
+                //}
+                //else
                     convertirCsvToPdf();
             } catch (Exception e) {
                 err.put("msm"+rengExcel[0], "Error al interpretar el folio :"+rengExcel[0]+" revisar que las columnas del documento excel sean las correctas");
@@ -124,10 +124,9 @@ public class LectorCSV extends Thread {
             nuevo.setOtrosParametros(Integer.parseInt(rengExcel[3]), 1, 5);
             nuevo.setOtrosParametros(Integer.parseInt(rengExcel[4]), 2, 5);
             nuevo.setOtrosParametros(Integer.parseInt(rengExcel[5]), 3, 5);
-            nuevo.setOtrosParametros(Integer.parseInt(rengExcel[6]), 4, 5);
             nuevo.setVariable("S");
-            nuevo.setServicio(rengExcel[7]);
-            nuevo.setComentarios(rengExcel[8]);
+            nuevo.setServicio(rengExcel[6]);
+            nuevo.setComentarios(rengExcel[7]);
         }
         private void culturales()throws Exception
         {
